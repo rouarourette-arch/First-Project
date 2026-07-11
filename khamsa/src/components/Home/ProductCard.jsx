@@ -1,9 +1,13 @@
 import React from 'react';
+import { useCart } from '../../context/CartContext'; // 1. Import useCart
 
 function ProductCard({ product, onViewDetails }) {
+  const { addToCart } = useCart(); // 2. Extract the function
+
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    alert(`${product.name} added to cart!`); // Simple alert for now
+    addToCart(product); // 3. Add the product to the global state
+    alert(`${product.name} added to cart!`); 
   };
 
   return (
