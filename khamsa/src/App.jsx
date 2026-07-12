@@ -6,13 +6,14 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
+import Admin from "./pages/Admin"; // 1. Imported the Admin page
 import { AuthProvider } from "./context/AuthContext";
-import { CartProvider } from "./context/CartContext"; // 1. Import CartProvider
+import { CartProvider } from "./context/CartContext"; 
 
 function App() {
   return (
     <AuthProvider>
-      {/* 2. Wrap the Router inside the CartProvider */}
       <CartProvider>
         <Router>
           <Navbar />
@@ -22,6 +23,8 @@ function App() {
               <Route path="/auth" element={<Auth />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/admin" element={<Admin />} /> {/* 2. Added the Route */}
             </Routes>
           </main>
           <Footer />
