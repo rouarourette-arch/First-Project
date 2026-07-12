@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { useCart } from '../context/CartContext'; // 1. Import useCart
+import { useCart } from '../context/CartContext'; 
 
 function Navbar() {
   const { user, logout } = useAuth();
-  const { totalItems } = useCart(); // 2. Get the total items count
+  const { totalItems } = useCart(); 
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -35,13 +35,15 @@ function Navbar() {
         )}
       </ul>
 
-      <div className="panier" style={{cursor:"pointer", display: 'flex', alignItems: 'center'}}>
-        🛒 
-        {/* 3. Replace '0' with the dynamic totalItems */}
-        <span style={{background:'red', borderRadius:'50%', padding:'2px 6px', fontSize:"12px", marginLeft: '5px'}}>
-          {totalItems}
-        </span>
-      </div>
+      {/* THE FIX: This entire block is now wrapped in a Link to take you to the /cart route */}
+      <Link to="/cart" style={{ textDecoration: 'none', color: '#fff' }}>
+        <div className="panier" style={{cursor:"pointer", display: 'flex', alignItems: 'center'}}>
+          🛒 
+          <span style={{background:'red', borderRadius:'50%', padding:'2px 6px', fontSize:"12px", marginLeft: '5px'}}>
+            {totalItems}
+          </span>
+        </div>
+      </Link>
     </nav>
   );
 }

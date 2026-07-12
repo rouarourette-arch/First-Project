@@ -7,24 +7,41 @@ export function CartProvider({ children }) {
 
   const addToCart = (product) => {
     setCart((prevCart) => {
-      // Check if the item is already in the cart
       const existingItem = prevCart.find(item => item.id === product.id);
       if (existingItem) {
-        // Increase quantity if it's already there
         return prevCart.map(item => 
           item.id === product.id ? { ...item, cartQuantity: item.cartQuantity + 1 } : item
         );
       }
-      // Add new item with a starting quantity of 1
       return [...prevCart, { ...product, cartQuantity: 1 }];
     });
   };
 
-  // Calculate total items for the red bubble
+  // NEW: Update quantity of a specific item
+  const updateQuantity = (productId, amount) => {
+    setCart((prevCart) => 
+      prevCart.map(item => {
+        if (item.id === productId) {
+          const newQuantity = item.cartQuantity + amount;
+          return { ...item, cartQuantity: newQuantity > 0 ? newQuantity : 1 };
+        }
+        return item;
+      })
+    );
+  };
+
+  // NEW: Remove item entirely
+  const removeFromCart = (productId) => {
+    setCart((prevCart) => prevCart.filter(item => item.id !== productId));
+  };
+
   const totalItems = cart.reduce((total, item) => total + item.cartQuantity, 0);
+  
+  // NEW: Calculate total price
+  const totalPrice = cart.reduce((total, item) => total + (Number(item.price) * item.cartQuantity), 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, totalItems }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeFromCart, totalItems, totalPrice }}>
       {children}
     </CartContext.Provider>
   );
