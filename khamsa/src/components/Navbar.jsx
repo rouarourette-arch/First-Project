@@ -21,7 +21,6 @@ function Navbar() {
       justifyContent: "space-between", 
       padding: '15px 40px', 
       alignItems: 'center',
-      /* The Glassmorphism Effect */
       background: 'rgba(255, 255, 255, 0.85)',
       backdropFilter: 'blur(10px)',
       WebkitBackdropFilter: 'blur(10px)',
@@ -32,16 +31,19 @@ function Navbar() {
       borderBottom: '1px solid rgba(0,0,0,0.05)'
     }}>
       
-      {/* Brand Logo */}
       <div className="logo">
         <Link to="/" style={{color: '#A67B5B', fontSize: '28px', fontWeight: '700', textDecoration: "none", letterSpacing: '-1px'}}>
           khamsa.
         </Link>
       </div>
       
-      {/* Navigation Links */}
       <ul style={{display: 'flex', listStyle: "none", gap: "30px", margin: 0, padding: 0, alignItems: 'center', fontWeight: '500'}}>
         <li><Link to="/" style={linkStyle}>Home</Link></li>
+        
+        {/* NEW LOGIC: Only show Contact if the user is NOT an admin */}
+        {!isAdmin && (
+          <li><Link to="/contact" style={linkStyle}>Contact</Link></li>
+        )}
         
         {user ? (
           <>
@@ -65,32 +67,19 @@ function Navbar() {
         )}
       </ul>
 
-      {/* Cart Icon */}
-      <Link to="/cart" style={{ textDecoration: 'none', color: '#333' }}>
-        <div className="panier" style={{
-          cursor: "pointer", 
-          display: 'flex', 
-          alignItems: 'center', 
-          background: '#F9F8F6', 
-          padding: '8px 16px', 
-          borderRadius: '25px',
-          border: '1px solid #E0E0E0',
-          transition: 'all 0.3s ease'
-        }}>
-          <span style={{fontSize: '18px', marginRight: '8px'}}>🛒</span> 
-          <span style={{fontWeight: '600', color: '#2C2A29'}}>{totalItems}</span>
-        </div>
-      </Link>
+      {/* Only show Cart if NOT admin */}
+      {!isAdmin && (
+        <Link to="/cart" style={{ textDecoration: 'none', color: '#333' }}>
+          <div className="panier" style={{ cursor: "pointer", display: 'flex', alignItems: 'center', background: '#F9F8F6', padding: '8px 16px', borderRadius: '25px', border: '1px solid #E0E0E0', transition: 'all 0.3s ease' }}>
+            <span style={{fontSize: '18px', marginRight: '8px'}}>🛒</span> 
+            <span style={{fontWeight: '600', color: '#2C2A29'}}>{totalItems}</span>
+          </div>
+        </Link>
+      )}
 
     </nav>
   );
 }
 
-// Reusable style for links
-const linkStyle = {
-  color: "#2C2A29", 
-  textDecoration: 'none',
-  transition: 'color 0.2s ease'
-};
-
+const linkStyle = { color: "#2C2A29", textDecoration: 'none', transition: 'color 0.2s ease' };
 export default Navbar;
